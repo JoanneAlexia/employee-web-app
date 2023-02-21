@@ -1,0 +1,17 @@
+.EmployeeCard {
+  width: 700px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgb(201, 201, 201);
+  padding-top: 10px;
+}
+
+.EmployeeLinks {
+  display: flex;
+  &_link {
+    margin: 0px 5px;
+    font-weight: bold;
+    color: blue;
+    text-decoration: underline;
+  }
+}
