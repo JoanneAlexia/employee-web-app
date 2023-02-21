@@ -26,16 +26,16 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
     email: yup.string().email().required(),
     mobile: yup.string().matches(/\d{10}/, "Phone number is not valid"),
     address: yup.string(),
-    // contractType: yup.string().required(),
-    // //startDay: yup.number().min(1).max(31).required(),
-    // startMonth: yup.number().min(1).max(12).required(),
-    // //startYear: yup.number().min(1900).max(2023).required(),
-    // //endDay: yup.number().min(1).max(31),
-    // endMonth: yup.number().min(1).max(12),
-    // //endYear: yup.number().min(1900).max(2023),
-    // employmentType: yup.string().required(),
-    // isOngoing: yup.boolean().required(),
-    // //hoursPerWeek: yup.number().min(1).max(168),
+    contractType: yup.string().required(),
+    startDay: yup.number().min(1).max(31).required(),
+    startMonth: yup.number().min(1).max(12).required(),
+    startYear: yup.number().min(1900).max(2023).required(),
+    endDay: yup.number().min(1).max(31),
+    endMonth: yup.number().min(1).max(12),
+    endYear: yup.number().min(1900).max(new Date().getFullYear()),
+    employmentType: yup.string().required(),
+    isOngoing: yup.boolean().required(),
+    hoursPerWeek: yup.number().min(1).max(168).required(),
   });
 
   const {
@@ -44,6 +44,7 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
     reset,
     control,
     formState: { errors },
+    setValue,
   } = useForm({
     defaultValues: employee,
     resolver: yupResolver(schema),
@@ -122,16 +123,16 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
             )}
           </div>
           <div className={styles.inputSection}>
-            <label htmlFor="mobile" className={styles.inputSection_label}>
+            <label htmlFor="mobileNumber" className={styles.inputSection_label}>
               Mobile number
             </label>
             <p>Must be an Australian number</p>
             <input
-              {...register("mobile")}
+              {...register("mobileNumber")}
               className={styles.inputSection_input}
               type="text"
-              name="mobile"
-              id="mobile"
+              name="mobileNumber"
+              id="mobileNumber"
               required
             ></input>
             {errors.mobile?.message ? (
@@ -170,6 +171,7 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
               render={(props) => (
                 <select
                   className={styles.inputDropdown}
+                  data-testid="contractType"
                   value={props.field.value}
                   onChange={(e) => props.field.onChange(e.target.value)}
                   required
@@ -189,6 +191,8 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
                   {...register("startDay")}
                   className={styles.dateSection_input_text}
                   type="text"
+                  data-testid="startDay"
+                  required
                 ></input>
               </div>
               <div className={styles.dateSection}>
@@ -196,6 +200,8 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
                 <select
                   {...register("startMonth")}
                   className={styles.dateSection_input_dropdown}
+                  data-testid="startMonth"
+                  required
                 >
                   <option value={1}>January</option>
                   <option value={2}>February</option>
@@ -217,9 +223,19 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
                   {...register("startYear")}
                   className={styles.dateSection_input_text}
                   type="text"
+                  data-testid="startYear"
+                  required
                 ></input>
               </div>
             </div>
+            {errors.startDay?.message ||
+            errors.startYear?.message ||
+            errors.endDay?.message ||
+            errors.endYear?.message ? (
+              <p className={styles.errorMessage}>Invalid date format</p>
+            ) : (
+              ""
+            )}
           </div>
           <div className={styles.inputSection}>
             <label className={styles.inputSection_label}>Finish date</label>
@@ -231,6 +247,7 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
                   className={styles.dateSection_input_text}
                   type="text"
                   disabled={isOngoing}
+                  data-testid="endDay"
                 ></input>
               </div>
               <div className={styles.dateSection}>
@@ -239,6 +256,7 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
                   {...register("endMonth")}
                   className={styles.dateSection_input_dropdown}
                   disabled={isOngoing}
+                  data-testid="endMonth"
                 >
                   <option value={1}>January</option>
                   <option value={2}>February</option>
@@ -261,35 +279,52 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
                   className={styles.dateSection_input_text}
                   type="text"
                   disabled={isOngoing}
+                  data-testid="endYear"
                 ></input>
               </div>
             </div>
             <div className={styles.ongoing}>
-              <input
-                {...register("isOngoing")}
-                className={styles.ongoing_checkbox}
-                type="checkbox"
+              <Controller
+                control={control}
                 name="isOngoing"
-                id="isOngoing"
-                checked={isOngoing}
-                onChange={onChangeOngoing}
-              ></input>
+                render={(props) => (
+                  <input
+                    type="checkbox"
+                    className={styles.input_checkbox}
+                    data-testid="isOngoing"
+                    onChange={(e) => {
+                      props.field.onChange(e.target.checked);
+                      setIsOngoing(e.target.checked);
+                      if (!props.field.value) {
+                        setValue("endDay", null);
+                        setValue("endMonth", null);
+                        setValue("endYear", null);
+                      }
+                    }}
+                  />
+                )}
+              />
               <label htmlFor="isOngoing" className={styles.ongoing_label}>
                 Ongoing
               </label>
             </div>
           </div>
+          {errors.endDay?.message || errors.endYear?.message ? (
+            <p className={styles.errorMessage}>Invalid date format</p>
+          ) : (
+            ""
+          )}
           <div className={styles.inputSection}>
             <label className={styles.inputSection_label}>
               Is this on a full-time or part-time basis?
             </label>
-
             <Controller
               control={control}
               name="employmentType"
               render={(props) => (
                 <select
                   className={styles.inputDropdown}
+                  data-testid="employmentType"
                   value={props.field.value}
                   onChange={(e) => props.field.onChange(e.target.value)}
                   required
@@ -301,18 +336,27 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
             />
           </div>
           <div className={styles.inputSection}>
-            <label className={styles.inputSection_label}>Hour per week</label>
+            <label htmlFor="hoursPerWeek" className={styles.inputSection_label}>
+              Hour per week
+            </label>
             <input
               {...register("hoursPerWeek")}
               className={styles.hours}
               type="text"
+              id="hoursPerWeek"
               required
             ></input>
           </div>
+          {errors.hoursPerWeek?.message ? (
+            <p className={styles.errorMessage}>Invalid hours entered</p>
+          ) : (
+            ""
+          )}
         </section>
         <input
           className={[styles.btn, styles.btn_blue].join(" ")}
           type="submit"
+          data-testid="submitBtn"
         ></input>
         <button onClick={routeChange} className={styles.btn}>
           Cancel

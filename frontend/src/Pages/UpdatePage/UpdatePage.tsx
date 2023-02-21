@@ -5,31 +5,35 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import EmployeeForm from "../../Components/EmployeeForm/EmployeeForm";
 import IEmployeeResponse from "../../Interfaces/IEmployeeResponse";
+import IEmployeeRequest from "../../Interfaces/IEmployeeRequest";
+import IEmployeeFormData from "../../Interfaces/IEmployeeFormData";
 
 const UpdatePage = () => {
   let navigate = useNavigate();
   const routeChange = () => {
     navigate("/");
   };
+
+  const [errorMessage, setErrorMessage] = useState("");
+
   const { id } = useParams();
-  const [employee, setEmployee] = useState<IEmployeeResponse>({
-    id: 0,
+  const [employee, setEmployee] = useState<IEmployeeFormData>({
     firstName: "",
     middleName: "",
     lastName: "",
     email: "",
-    mobileNumber: 123,
+    mobileNumber: "1234567890",
     address: "",
-    startDay: 1,
+    startDay: "1",
     startMonth: 1,
-    startYear: 2022,
-    endDay: 1,
+    startYear: "2022",
+    endDay: "1",
     endMonth: 1,
-    endYear: 2022,
+    endYear: "2022",
     employmentType: "fullTime",
-    ongoing: true,
+    isOngoing: true,
     contractType: "permanent",
-    hoursPerWeek: 40,
+    hoursPerWeek: "40",
   });
 
   useEffect(() => {
@@ -39,38 +43,22 @@ const UpdatePage = () => {
         setEmployee(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.code === "Network Error") {
+          setErrorMessage("Problem connecting to employee database");
+        } else if (error.response.status) {
+          setErrorMessage("Employee does not exist in database");
+        }
       });
   }, []);
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    const dataToSend = {
-      firstName: data.firstName,
-      middleName: data.middleName,
-      lastName: data.lastName,
-      email: data.email,
-      mobileNumber: parseInt(data.mobile),
-      address: data.address,
-      contractType: data.contractType,
-      startDay: parseInt(data.startDay),
-      startMonth: parseInt(data.startMonth),
-      startYear: parseInt(data.startYear),
-      endDay: parseInt(data.endDay),
-      endMonth: parseInt(data.endMonth),
-      endYear: parseInt(data.endYear),
-      isOngoing: data.isOngoing,
-      employmentType: data.employmentType,
-    };
-
-    axios
-      .put(`http://localhost:8080/employee/${id}`, dataToSend)
-      .then((res) => {
-        alert(
-          `Employee ${data.firstName} ${data.lastName} successfully updated.`
-        );
-        routeChange();
-      });
+    console.log(data.mobileNumber);
+    axios.put(`http://localhost:8080/employee/${id}`, data).then((res) => {
+      alert(
+        `Employee ${data.firstName} ${data.lastName} successfully updated.`
+      );
+      routeChange();
+    });
   };
 
   return (
@@ -81,6 +69,7 @@ const UpdatePage = () => {
         </Link>
         <h1 className={styles.header_heading}>Employee details</h1>
       </header>
+      {errorMessage ? <p className={styles.errorMsg}>{errorMessage}</p> : ""}
       <EmployeeForm employee={employee} onSubmit={onSubmit} />
     </div>
   );

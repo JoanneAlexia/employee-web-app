@@ -10,9 +10,9 @@ export default interface IEmployeeResponse {
   startDay: number;
   startMonth: number;
   startYear: number;
-  endDay: number;
-  endMonth: number;
-  endYear: number;
+  endDay: number | null;
+  endMonth: number | null;
+  endYear: number | null;
   ongoing: boolean;
   employmentType: String;
   hoursPerWeek: number;

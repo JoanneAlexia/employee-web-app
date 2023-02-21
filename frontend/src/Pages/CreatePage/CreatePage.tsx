@@ -25,10 +25,8 @@ const CreatePage = () => {
   };
 
   const onSubmit = (data: any) => {
-    const dataToSend = data;
-
     axios
-      .post(`http://localhost:8080/employee`, dataToSend)
+      .post(`http://localhost:8080/employee`, data)
       .then((res) => {
         alert(
           `New employee ${res.data.firstName} ${res.data.lastName} successfully added to database`

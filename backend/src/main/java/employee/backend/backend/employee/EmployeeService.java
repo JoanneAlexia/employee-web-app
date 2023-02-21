@@ -58,7 +58,12 @@ public class EmployeeService {
 		foundEmployee.setEmploymentType(data.getEmploymentType());
 		foundEmployee.setOngoing(data.isOngoing());
 		foundEmployee.setStartDay(data.getStartDay());
+		foundEmployee.setStartMonth(data.getStartMonth());
+		foundEmployee.setStartYear(data.getStartYear());
 		foundEmployee.setEndDay(data.getEndDay());
+		foundEmployee.setEndMonth(data.getEndMonth());
+		foundEmployee.setEndYear(data.getEndYear());
+		foundEmployee.setHoursPerWeek(data.getHoursPerWeek());
 		
 		this.repository.save(foundEmployee);
 		return true;

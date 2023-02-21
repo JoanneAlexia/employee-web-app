@@ -67,6 +67,8 @@ public class EmployeeController {
 		if(isUpdated) {
 			return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
 		}
+		
+		this.service.create(data);
 		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 	}
 }
