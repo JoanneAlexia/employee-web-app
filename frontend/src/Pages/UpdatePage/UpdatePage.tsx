@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import EmployeeForm from "../../Components/EmployeeForm/EmployeeForm";
-import IEmployeeResponse from "../../Interfaces/IEmployeeResponse";
-import IEmployeeRequest from "../../Interfaces/IEmployeeRequest";
 import IEmployeeFormData from "../../Interfaces/IEmployeeFormData";
+import { employeeDefaults } from "../../services/employeeData";
 
 const UpdatePage = () => {
   let navigate = useNavigate();
@@ -17,24 +16,7 @@ const UpdatePage = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const { id } = useParams();
-  const [employee, setEmployee] = useState<IEmployeeFormData>({
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    email: "",
-    mobileNumber: "1234567890",
-    address: "",
-    startDay: "1",
-    startMonth: 1,
-    startYear: "2022",
-    endDay: "1",
-    endMonth: 1,
-    endYear: "2022",
-    employmentType: "fullTime",
-    isOngoing: true,
-    contractType: "permanent",
-    hoursPerWeek: "40",
-  });
+  const [employee, setEmployee] = useState<IEmployeeFormData>(employeeDefaults);
 
   useEffect(() => {
     axios

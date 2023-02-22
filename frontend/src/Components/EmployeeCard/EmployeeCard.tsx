@@ -13,7 +13,7 @@ const EmployeeCard = ({ data, setEmployeeRemoved }: any) => {
         console.log(res);
       })
       .catch((error) => {
-        console.log(error);
+        alert("Employee was not successfully deleted");
       });
   };
 

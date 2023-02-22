@@ -1,5 +1,6 @@
 package employee.backend.backend.employee;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,13 +42,15 @@ public class EmployeeService {
 	}
 	
 	public boolean update(Long id, EmployeeDTO data) {
+		//Check if start date > end date if so return error. 
 		
 		Optional<Employee> maybeEmployee = this.getById(id);
 		if(maybeEmployee.isEmpty()) {
 			return false; 
-		}		
-		
+		}
 		Employee foundEmployee = maybeEmployee.get();
+		
+
 		foundEmployee.setFirstName(data.getFirstName());
 		foundEmployee.setMiddleName(data.getMiddleName());
 		foundEmployee.setLastName(data.getLastName());

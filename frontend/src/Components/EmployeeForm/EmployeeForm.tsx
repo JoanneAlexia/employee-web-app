@@ -2,7 +2,7 @@ import styles from "./EmployeeForm.module.scss";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
+import { validationSchema } from "../../services/employeeData";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const EmployeeForm = ({ employee, onSubmit }: any) => {
@@ -18,26 +18,6 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
     setIsOngoing(event.target.checked);
   };
 
-  //Form Validation
-  const schema = yup.object().shape({
-    firstName: yup.string().required(),
-    middleName: yup.string(),
-    lastName: yup.string().required(),
-    email: yup.string().email().required(),
-    mobile: yup.string().matches(/\d{10}/, "Phone number is not valid"),
-    address: yup.string(),
-    contractType: yup.string().required(),
-    startDay: yup.number().min(1).max(31).required(),
-    startMonth: yup.number().min(1).max(12).required(),
-    startYear: yup.number().min(1900).max(2023).required(),
-    endDay: yup.number().min(1).max(31),
-    endMonth: yup.number().min(1).max(12),
-    endYear: yup.number().min(1900).max(new Date().getFullYear()),
-    employmentType: yup.string().required(),
-    isOngoing: yup.boolean().required(),
-    hoursPerWeek: yup.number().min(1).max(168).required(),
-  });
-
   const {
     register,
     handleSubmit,
@@ -47,7 +27,7 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
     setValue,
   } = useForm({
     defaultValues: employee,
-    resolver: yupResolver(schema),
+    resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {

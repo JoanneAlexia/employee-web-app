@@ -1,6 +1,6 @@
 import CreatePage from "./CreatePage";
 import axios, { AxiosResponse } from "axios";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { vi } from "vitest";
 import { BrowserRouter } from "react-router-dom";
@@ -11,7 +11,10 @@ describe("Test create employee page", () => {
     vi.restoreAllMocks();
   });
   test("should make post request when submit button is selected", async () => {
+    const alertMock = vi.spyOn(window, "alert").mockImplementation(() => {});
+
     const mockData = {
+      id: 1,
       firstName: "John",
       middleName: "Daniel",
       lastName: "Smith",
@@ -29,6 +32,9 @@ describe("Test create employee page", () => {
       contractType: "permanent",
       hoursPerWeek: "40",
     };
+
+    vi.spyOn(axios, "post").mockResolvedValueOnce({ data: mockData });
+
     render(
       <BrowserRouter>
         <CreatePage />
@@ -70,9 +76,10 @@ describe("Test create employee page", () => {
     await userEvent.selectOptions(contractTypeInput, "permanent");
     await userEvent.type(hoursPerWeekInput, "40");
     await userEvent.click(submitBtn);
-    expect(vi.spyOn(axios, "post")).toHaveBeenCalledWith(
-      `http://localhost:8080/employee`,
-      mockData
+
+    expect(alertMock).toBeCalled();
+    expect(alertMock).toBeCalledWith(
+      `New employee ${mockData.firstName} ${mockData.lastName} successfully added to database`
     );
   });
 });

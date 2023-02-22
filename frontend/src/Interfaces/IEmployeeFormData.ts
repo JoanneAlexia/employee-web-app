@@ -1,18 +1,18 @@
 export default interface IEmployeeFormData {
-  firstName: String;
-  middleName: String | null;
-  lastName: String;
-  email: String;
+  firstName: string;
+  middleName: string | null;
+  lastName: string;
+  email: string;
   mobileNumber: string;
-  address: String;
+  address: string;
   contractType: string;
-  startDay: String;
+  startDay: string;
   startMonth: number;
-  startYear: String;
-  endDay: String | null;
+  startYear: string;
+  endDay: string | null;
   endMonth: number | null;
-  endYear: String | null;
+  endYear: string | null;
   isOngoing: boolean;
-  employmentType: String;
-  hoursPerWeek: String;
+  employmentType: string;
+  hoursPerWeek: string;
 }

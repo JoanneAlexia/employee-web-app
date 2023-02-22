@@ -2,26 +2,13 @@ import styles from "./CreatePage.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import EmployeeForm from "../../Components/EmployeeForm/EmployeeForm";
 import axios from "axios";
+import { employeeDefaults } from "../../services/employeeData";
+import { createPost } from "../../services/API";
 
 const CreatePage = () => {
   let navigate = useNavigate();
   const routeChange = () => {
     navigate("/");
-  };
-
-  const employee = {
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    email: "",
-    mobileNumber: null,
-    address: "",
-    startDate: "",
-    endDate: "",
-    employmentType: "fullTime",
-    isOngoing: true,
-    contractType: "permanent",
-    hoursPerWeek: null,
   };
 
   const onSubmit = (data: any) => {
@@ -34,7 +21,7 @@ const CreatePage = () => {
         routeChange();
       })
       .catch((error) => {
-        console.log(error);
+        alert(`Error occurred when trying to add user to database.`);
       });
   };
 
@@ -46,7 +33,7 @@ const CreatePage = () => {
         </Link>
         <h1 className={styles.header_heading}>Add new employee</h1>
       </header>
-      <EmployeeForm employee={employee} onSubmit={onSubmit} />
+      <EmployeeForm employee={employeeDefaults} onSubmit={onSubmit} />
     </div>
   );
 };

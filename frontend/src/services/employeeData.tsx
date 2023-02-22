@@ -1,0 +1,38 @@
+import * as yup from "yup";
+export const validationSchema = yup.object().shape({
+  firstName: yup.string().required(),
+  middleName: yup.string(),
+  lastName: yup.string().required(),
+  email: yup.string().email("Please enter a valid email address").required(),
+  mobile: yup.string().matches(/\d{10}/, "Phone number is not valid"),
+  address: yup.string(),
+  contractType: yup.string().required(),
+  startDay: yup.number().min(1).max(31).required(),
+  startMonth: yup.number().min(1).max(12).required(),
+  startYear: yup.number().min(1900).max(2023).required(),
+  endDay: yup.number().min(1).max(31),
+  endMonth: yup.number().min(1).max(12),
+  endYear: yup.number().min(1900).max(new Date().getFullYear()),
+  employmentType: yup.string().required(),
+  isOngoing: yup.boolean().required(),
+  hoursPerWeek: yup.number().min(1).max(168).required(),
+});
+
+export const employeeDefaults = {
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  email: "",
+  mobileNumber: "",
+  address: "",
+  startDay: "",
+  startMonth: 1,
+  startYear: "",
+  endDay: null,
+  endMonth: null,
+  endYear: null,
+  employmentType: "fullTime",
+  isOngoing: true,
+  contractType: "permanent",
+  hoursPerWeek: "",
+};
