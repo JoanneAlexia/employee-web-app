@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgb(239, 230, 201);
+  width: 90%;
+  height: 270px;
+  margin: 50px;
+  &_heading {
+    font-size: 3rem;
+    padding-top: 40px;
+    font-weight: bold;
+    margin: 0px 150px;
+  }
+  &_link {
+    margin: 0px 150px;
+  }
+}
+
+.errorMsg {
+  margin: 0px 100px;
+  color: red;
+}

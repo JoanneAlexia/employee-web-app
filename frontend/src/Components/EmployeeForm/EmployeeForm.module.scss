@@ -1,0 +1,90 @@
+.form {
+  margin: 50px 100px;
+  &_heading {
+    font-weight: bold;
+  }
+  &_section {
+    margin: 40px 0px;
+  }
+}
+
+.inputSection {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0px;
+  &_label {
+    font-weight: bold;
+    margin: 3px;
+  }
+  &_input {
+    border-radius: 5px;
+    padding: 10px;
+    width: 30vw;
+  }
+}
+
+.radioBtn {
+  margin: 20px;
+  transform: scale(2);
+  accent-color: gray;
+}
+
+.date {
+  display: flex;
+}
+
+.dateSection {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  &_input_text {
+    width: 80px;
+    padding: 8px;
+    margin: 10px 0px;
+  }
+  &_input_dropdown {
+    width: 150px;
+    padding: 8px;
+    margin: 10px 0px;
+  }
+}
+
+.hours {
+  width: 80px;
+  padding: 8px;
+}
+
+.ongoing {
+  margin: 5px;
+  &_checkbox {
+    transform: scale(2);
+    accent-color: gray;
+  }
+  &_label {
+    margin: 10px;
+  }
+}
+
+.btn {
+  border-radius: 8px;
+  background-color: rgb(238, 237, 226);
+  font-size: 1rem;
+  padding: 10px 60px;
+  margin: 10px;
+  border: 2px solid rgb(206, 203, 173);
+  &_blue {
+    color: white;
+    background-color: rgb(4, 80, 173);
+    border-color: rgb(3, 61, 133);
+  }
+}
+
+.inputDropdown {
+  width: 150px;
+  padding: 8px;
+  margin: 10px 0px;
+}
+
+.errorMessage {
+  color: red;
+}
