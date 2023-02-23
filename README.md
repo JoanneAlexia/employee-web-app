@@ -116,7 +116,9 @@ This is where the employee list is displayed. If there are no employees in the d
 This displays an empty form that can be filled in by the user and submitted. Error messages should appear if required fields are not inputted or fields are not of the appropriate type.
 
 **Update Page**
+
 This displays a form with the current employee data that can be changed. The employee data will be updated in the database once the submit button is selected.
+
 
 **Form**
 The same form component was reused for both the create and update pages. The update and create page components have different implementations of the submit method and employee data which is passed in as a prop to the form component.
