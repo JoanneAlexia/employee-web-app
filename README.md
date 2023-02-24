@@ -121,6 +121,7 @@ This displays a form with the current employee data that can be changed. The emp
 
 
 **Form**
+
 The same form component was reused for both the create and update pages. The update and create page components have different implementations of the submit method and employee data which is passed in as a prop to the form component.
 
 To allow for easier form validation and collection of user data, useForm hook was used.
@@ -128,8 +129,8 @@ The radio buttons didn't work well with the useForm hook which is why the decisi
 
 The date input elements in the form are currently text fields and selection boxes. This makes it diffcult to perform proper validation of these fields to ensure appropriate input. Other options could be explored, such as used a date picker component.
 
-### Testing.
+### Testing
 
-Some testing in React was performed of the Employee List component. More thorough testing of all components are needed.
+Some testing in React was performed of the EmployeeList, CreatePage and components. More thorough testing of all components are needed.
 
 A test of the getAll service method was performed for the spring application but again more testing is needed.
