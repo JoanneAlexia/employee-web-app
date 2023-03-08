@@ -1,6 +1,6 @@
 import CreatePage from "./CreatePage";
 import axios, { AxiosResponse } from "axios";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { vi } from "vitest";
 import { BrowserRouter } from "react-router-dom";
@@ -21,16 +21,16 @@ describe("Test create employee page", () => {
       email: "johnsmith@gmail.com",
       mobileNumber: "1234567890",
       address: "123 Fake St.",
-      startDay: "2",
+      startDay: 2,
       startMonth: 3,
-      startYear: "2020",
-      endDay: "20",
-      endMonth: 4,
-      endYear: "2022",
+      startYear: 2020,
+      endDay: null,
+      endMonth: null,
+      endYear: null,
       employmentType: "fullTime",
-      isOngoing: true,
+      isOngoing: false,
       contractType: "permanent",
-      hoursPerWeek: "40",
+      hoursPerWeek: 40,
     };
 
     vi.spyOn(axios, "post").mockResolvedValueOnce({ data: mockData });
@@ -51,9 +51,6 @@ describe("Test create employee page", () => {
     const startDayInput = screen.getByTestId("startDay");
     const startMonthInput = screen.getByTestId("startMonth");
     const startYearInput = screen.getByTestId("startYear");
-    const endDayInput = screen.getByTestId("endDay");
-    const endMonthInput = screen.getByTestId("endMonth");
-    const endYearInput = screen.getByTestId("endYear");
     const employmentTypeInput = screen.getByTestId("employmentType");
     const contractTypeInput = screen.getByTestId("contractType");
     const hoursPerWeekInput = screen.getByLabelText("Hour per week");
@@ -68,13 +65,11 @@ describe("Test create employee page", () => {
     await userEvent.type(addressInput, "123 Fake St.");
     await userEvent.type(startDayInput, "2");
     await userEvent.selectOptions(startMonthInput, "3");
-    await userEvent.type(startYearInput, "2020");
-    await userEvent.type(endDayInput, "20");
-    await userEvent.selectOptions(endMonthInput, "4");
-    await userEvent.type(endYearInput, "2022");
+    //await userEvent.type(startYearInput, "2020");
+    await userEvent.click(isOngoingCheckbox);
     await userEvent.selectOptions(employmentTypeInput, "fullTime");
     await userEvent.selectOptions(contractTypeInput, "permanent");
-    await userEvent.type(hoursPerWeekInput, "40");
+    //await userEvent.type(hoursPerWeekInput, "25");
     await userEvent.click(submitBtn);
 
     expect(alertMock).toBeCalled();

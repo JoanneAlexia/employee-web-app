@@ -176,11 +176,11 @@ public class EmployeeDTO {
 		this.endYear = endYear;
 	}
 
-	public boolean isOngoing() {
+	public boolean getIsOngoing() {
 		return isOngoing;
 	}
 
-	public void setOngoing(boolean isOngoing) {
+	public void setIsOngoing(boolean isOngoing) {
 		this.isOngoing = isOngoing;
 	}
 	

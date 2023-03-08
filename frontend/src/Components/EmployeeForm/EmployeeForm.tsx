@@ -1,11 +1,19 @@
 import styles from "./EmployeeForm.module.scss";
 import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { validationSchema } from "../../services/employeeData";
 import { yupResolver } from "@hookform/resolvers/yup";
+import IEmployeeRequest from "../../Interfaces/IEmployeeRequest";
+import { Checkbox } from "@mui/material";
 
-const EmployeeForm = ({ employee, onSubmit }: any) => {
+const EmployeeForm = ({
+  employee,
+  onSubmit,
+}: {
+  employee: IEmployeeRequest;
+  onSubmit: SubmitHandler<IEmployeeRequest>;
+}) => {
   //Cancel button navigates to home page
   let navigate = useNavigate();
   const routeChange = () => {
@@ -13,10 +21,7 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
   };
 
   //To allow monitoring of changing state of checkbox
-  const [isOngoing, setIsOngoing] = useState(employee.ongoing);
-  const onChangeOngoing = (event: any) => {
-    setIsOngoing(event.target.checked);
-  };
+  const [isOngoing, setIsOngoing] = useState(employee.isOngoing);
 
   const {
     register,
@@ -32,6 +37,7 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
 
   useEffect(() => {
     reset(employee);
+    setIsOngoing(employee.isOngoing);
   }, [employee]);
 
   return (
@@ -115,9 +121,9 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
               id="mobileNumber"
               required
             ></input>
-            {errors.mobile?.message ? (
+            {errors.mobileNumber?.message ? (
               <p className={styles.errorMessage}>
-                {errors.mobile?.message?.toString()}
+                {errors.mobileNumber?.message?.toString()}
               </p>
             ) : (
               ""
@@ -208,10 +214,7 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
                 ></input>
               </div>
             </div>
-            {errors.startDay?.message ||
-            errors.startYear?.message ||
-            errors.endDay?.message ||
-            errors.endYear?.message ? (
+            {errors.startDay?.message || errors.startYear?.message ? (
               <p className={styles.errorMessage}>Invalid date format</p>
             ) : (
               ""
@@ -267,15 +270,16 @@ const EmployeeForm = ({ employee, onSubmit }: any) => {
               <Controller
                 control={control}
                 name="isOngoing"
-                render={(props) => (
-                  <input
-                    type="checkbox"
-                    className={styles.input_checkbox}
+                render={({ field: props }) => (
+                  <Checkbox
+                    {...props}
                     data-testid="isOngoing"
+                    checked={props.value}
                     onChange={(e) => {
-                      props.field.onChange(e.target.checked);
+                      console.log(props.value);
+                      props.onChange(e.target.checked);
                       setIsOngoing(e.target.checked);
-                      if (!props.field.value) {
+                      if (!props.value) {
                         setValue("endDay", null);
                         setValue("endMonth", null);
                         setValue("endYear", null);

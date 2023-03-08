@@ -1,11 +1,11 @@
 import styles from "./UpdatePage.module.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import EmployeeForm from "../../Components/EmployeeForm/EmployeeForm";
-import IEmployeeFormData from "../../Interfaces/IEmployeeFormData";
 import { employeeDefaults } from "../../services/employeeData";
+import { getById, updateById } from "../../services/API";
+import IEmployeeRequest from "../../Interfaces/IEmployeeRequest";
 
 const UpdatePage = () => {
   let navigate = useNavigate();
@@ -16,13 +16,24 @@ const UpdatePage = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const { id } = useParams();
-  const [employee, setEmployee] = useState<IEmployeeFormData>(employeeDefaults);
+  const [employee, setEmployee] = useState<IEmployeeRequest>(employeeDefaults);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/employee/${id}`)
+    getById(id)
       .then((response) => {
-        setEmployee(response.data);
+        let employeeResponse = response.data;
+        delete employeeResponse.id;
+        //Null values returned as 0
+        if (employeeResponse.endDay === 0) {
+          employeeResponse.endDay = null;
+        }
+        if (employeeResponse.endMonth === 0) {
+          employeeResponse.endMonth = null;
+        }
+        if (employeeResponse.endYear === 0) {
+          employeeResponse.endYear = null;
+        }
+        setEmployee(employeeResponse);
       })
       .catch((error) => {
         if (error.code === "Network Error") {
@@ -33,9 +44,8 @@ const UpdatePage = () => {
       });
   }, []);
 
-  const onSubmit = (data: any) => {
-    console.log(data.mobileNumber);
-    axios.put(`http://localhost:8080/employee/${id}`, data).then((res) => {
+  const onSubmit = (data: IEmployeeRequest) => {
+    updateById(id, data).then((res) => {
       alert(
         `Employee ${data.firstName} ${data.lastName} successfully updated.`
       );

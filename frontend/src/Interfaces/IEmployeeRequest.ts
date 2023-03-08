@@ -1,18 +1,18 @@
 export default interface IEmployeeRequest {
-  firstName: String;
-  middleName: String | null;
-  lastName: String;
-  email: String;
+  firstName: string;
+  middleName: string | null;
+  lastName: string;
+  email: string;
   mobileNumber: number;
-  address: String;
-  contractType: String;
+  address: string;
+  contractType: string;
   startDay: number;
   startMonth: number;
   startYear: number;
-  endDay: number;
-  endMonth: number;
-  endYear: number;
+  endDay: number | null;
+  endMonth: number | null;
+  endYear: number | null;
   isOngoing: boolean;
-  employmentType: String;
+  employmentType: string;
   hoursPerWeek: number;
 }

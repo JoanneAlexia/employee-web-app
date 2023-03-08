@@ -1,9 +1,9 @@
 import styles from "./CreatePage.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import EmployeeForm from "../../Components/EmployeeForm/EmployeeForm";
-import axios from "axios";
 import { employeeDefaults } from "../../services/employeeData";
 import { createPost } from "../../services/API";
+import IEmployeeRequest from "../../Interfaces/IEmployeeRequest";
 
 const CreatePage = () => {
   let navigate = useNavigate();
@@ -11,9 +11,8 @@ const CreatePage = () => {
     navigate("/");
   };
 
-  const onSubmit = (data: any) => {
-    axios
-      .post(`http://localhost:8080/employee`, data)
+  const onSubmit = (data: IEmployeeRequest) => {
+    createPost(data)
       .then((res) => {
         alert(
           `New employee ${res.data.firstName} ${res.data.lastName} successfully added to database`

@@ -1,7 +1,6 @@
 # Employee Fullstack Application
 
-This project is my submission for the tech test from DCS recruitment. The requirments for the tech test was to build a web application to create, list, modify and delete employees. The application should consist of a RESTful API and a React Typescript frontend.
-I have choosen to create the REST API using a Spring backend.
+This is a full stack web application to create, list, modify and delete employees. The application consists of a RESTful API written with Java and created with Spring and a React Typescript frontend. The REST API will load employee data into a local mySQL database. The home page includes a page for viewing and deleting exisiting employees from the database. There are forms for creating and updating employees which include validation.
 
 ## Setup
 

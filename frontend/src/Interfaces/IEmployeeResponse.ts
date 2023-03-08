@@ -1,19 +1,19 @@
 export default interface IEmployeeResponse {
-  id: number;
-  firstName: String;
-  middleName: String | null;
-  lastName: String;
-  email: String;
+  id: string;
+  firstName: string;
+  middleName: string | null;
+  lastName: string;
+  email: string;
   mobileNumber: number;
-  address: String;
-  contractType: String;
+  address: string;
+  contractType: string;
   startDay: number;
   startMonth: number;
   startYear: number;
   endDay: number | null;
   endMonth: number | null;
   endYear: number | null;
-  ongoing: boolean;
-  employmentType: String;
+  isOngoing: boolean;
+  employmentType: string;
   hoursPerWeek: number;
 }

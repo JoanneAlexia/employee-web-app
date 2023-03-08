@@ -190,7 +190,7 @@ public class Employee {
 		this.endYear = endYear;
 	}
 
-	public boolean isOngoing() {
+	public boolean getIsOngoing() {
 		return isOngoing;
 	}
 
@@ -210,7 +210,7 @@ public class Employee {
 		this.employmentType = employmentType;
 	}
 
-	public void setOngoing(boolean isOngoing) {
+	public void setIsOngoing(boolean isOngoing) {
 		this.isOngoing = isOngoing;
 	}
 

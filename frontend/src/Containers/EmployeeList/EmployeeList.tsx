@@ -1,9 +1,8 @@
-import React from "react";
 import styles from "./EmployeeList.module.scss";
 import EmployeeCard from "../../Components/EmployeeCard/EmployeeCard";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import IEmployeeResponse from "../../Interfaces/IEmployeeResponse";
+import { getAll } from "../../services/API";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState<Array<IEmployeeResponse>>([]);
@@ -11,8 +10,7 @@ const EmployeeList = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/employee")
+    getAll()
       .then((response) => {
         setEmployees(response.data);
         if (response.data.length === 0) {
@@ -31,6 +29,7 @@ const EmployeeList = () => {
             key={employee.id}
             data={employee}
             setEmployeeRemoved={setEmployeeRemoved}
+            employeeRemoved={employeeRemoved}
           />
         ))}
       </div>

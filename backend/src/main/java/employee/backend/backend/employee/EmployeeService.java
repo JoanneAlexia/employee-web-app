@@ -17,7 +17,7 @@ public class EmployeeService {
 	private EmployeeRepository repository; 
 	
 	public Employee create(EmployeeDTO data) {
-		Employee newEmployee = new Employee(data.getFirstName(), data.getMiddleName(),data.getLastName(), data.getEmail(), data.getMobileNumber(), data.getAddress(),data.getContractType(), data.getStartDay(),data.getStartMonth(), data.getStartYear(), data.getEndDay(), data.getEndMonth(), data.getEndYear(), data.isOngoing(),data.getEmploymentType(),data.getHoursPerWeek());
+		Employee newEmployee = new Employee(data.getFirstName(), data.getMiddleName(),data.getLastName(), data.getEmail(), data.getMobileNumber(), data.getAddress(),data.getContractType(), data.getStartDay(),data.getStartMonth(), data.getStartYear(), data.getEndDay(), data.getEndMonth(), data.getEndYear(), data.getIsOngoing(),data.getEmploymentType(),data.getHoursPerWeek());
 		this.repository.save(newEmployee);
 		return newEmployee; 
 	}
@@ -59,7 +59,7 @@ public class EmployeeService {
 		foundEmployee.setAddress(data.getAddress());
 		foundEmployee.setContractType(data.getContractType());
 		foundEmployee.setEmploymentType(data.getEmploymentType());
-		foundEmployee.setOngoing(data.isOngoing());
+		foundEmployee.setIsOngoing(data.getIsOngoing());
 		foundEmployee.setStartDay(data.getStartDay());
 		foundEmployee.setStartMonth(data.getStartMonth());
 		foundEmployee.setStartYear(data.getStartYear());

@@ -1,18 +1,26 @@
-import React from "react";
 import styles from "./EmployeeCard.module.scss";
 import { Link } from "react-router-dom";
-import IEmployeeData from "../../Interfaces/IEmployeeRequest";
-import axios from "axios";
+import { deleteById } from "../../services/API";
+import IEmployeeResponse from "../../Interfaces/IEmployeeResponse";
+import { AxiosResponse } from "axios";
 
-const EmployeeCard = ({ data, setEmployeeRemoved }: any) => {
+const EmployeeCard = ({
+  data,
+  setEmployeeRemoved,
+  employeeRemoved,
+}: {
+  data: IEmployeeResponse;
+  setEmployeeRemoved: Function;
+  employeeRemoved: boolean;
+}) => {
   const handleRemove = () => {
-    axios
-      .delete(`http://localhost:8080/employee/${data.id}`)
-      .then((res: any) => {
-        setEmployeeRemoved(true);
-        console.log(res);
+    deleteById(data.id)
+      .then((res: AxiosResponse) => {
+        setEmployeeRemoved(!employeeRemoved);
+        alert(`Employee ${data.id} was successfully deleted`);
       })
       .catch((error) => {
+        console.log(error);
         alert("Employee was not successfully deleted");
       });
   };
@@ -23,7 +31,9 @@ const EmployeeCard = ({ data, setEmployeeRemoved }: any) => {
         <h4 className={styles.Name}>{`${data.firstName} ${data.lastName}`}</h4>
         <p className={styles.Contract}>
           {data.contractType}
-          {` - ${data.endYear - data.startYear}yrs`}
+          {data.endYear
+            ? ` - ${data.endYear - data.startYear}yrs`
+            : ` - ${new Date().getFullYear() - data.startYear}`}
         </p>
         <p className={styles.Email}>{data.email}</p>
       </div>
